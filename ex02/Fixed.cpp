@@ -6,13 +6,13 @@ Fixed::Fixed(): fx_point_value(0) {
 
 Fixed::Fixed(const Fixed &fixed) {
 	std::cout << "Copy constructor called" << std::endl;
-	this->setRawBits(fixed.fx_point_value);
+	this->setRawBits(fixed.getRawBits());
 }
 
 Fixed &Fixed::operator=(const Fixed &fixed) {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &fixed) {
-		this->setRawBits(fixed.fx_point_value);
+		this->setRawBits(fixed.getRawBits());
 	}
 
 	return *this;
@@ -31,17 +31,15 @@ Fixed::~Fixed() {
 }
 
 float Fixed::toFloat(void) const {
-	return static_cast<float>(this->fx_point_value) / (1 << this->fx_point_bits);
+	return static_cast<float>(this->getRawBits()) / (1 << this->fx_point_bits);
 }
 
 int Fixed::toInt(void) const {
-	return this->fx_point_value >> this->fx_point_bits;
+	return this->getRawBits() >> this->fx_point_bits;
 }
 
 
 int Fixed::getRawBits(void) const {
-	std::cout << "getRawBits member function called" << std::endl;
-
 	return this->fx_point_value;
 }
 
@@ -54,27 +52,27 @@ std::ostream &operator<<(std::ostream &os, const Fixed &fixed) {
 }
 
 bool Fixed::operator>(const Fixed &fixed) const {
-	return this->fx_point_value > fixed.fx_point_value;
+	return this->getRawBits() > fixed.getRawBits();
 }
 
 bool Fixed::operator<(const Fixed &fixed) const {
-	return this->fx_point_value < fixed.fx_point_value;	
+	return this->getRawBits() < fixed.getRawBits();	
 }
 
 bool Fixed::operator>=(const Fixed &fixed) const {
-	return this->fx_point_value >= fixed.fx_point_value;
+	return this->getRawBits() >= fixed.getRawBits();
 }
 
 bool Fixed::operator<=(const Fixed &fixed) const {
-	return this->fx_point_value <= fixed.fx_point_value;
+	return this->getRawBits() <= fixed.getRawBits();
 }
 
 bool Fixed::operator==(const Fixed &fixed) const {
-	return this->fx_point_value == fixed.fx_point_value;	
+	return this->getRawBits() == fixed.getRawBits();	
 }
 
 bool Fixed::operator!=(const Fixed &fixed) const {
-	return this->fx_point_value != fixed.fx_point_value;
+	return this->getRawBits() != fixed.getRawBits();
 }
 
 Fixed Fixed::operator+(const Fixed &fixed) const {
@@ -116,25 +114,25 @@ Fixed &Fixed::operator--(void) {
 }
 
 Fixed &Fixed::min(Fixed &a, Fixed &b) {
-	if (a.fx_point_value < b.fx_point_value) 
+	if (a.getRawBits() < b.getRawBits()) 
 		return a;
 	return b;
 }
 
 const Fixed &Fixed::min(const Fixed &a, const Fixed &b) {
-	if (a.fx_point_value < b.fx_point_value) 
+	if (a.getRawBits() < b.getRawBits()) 
 		return a;
 	return b;
 }
 
 Fixed &Fixed::max(Fixed &a, Fixed &b) {
-	if (a.fx_point_value < b.fx_point_value) 
+	if (a.getRawBits() < b.getRawBits()) 
 		return b;
 	return a;
 }
 
 const Fixed &Fixed::max(const Fixed &a, const Fixed &b) {
-	if (a.fx_point_value < b.fx_point_value) 
+	if (a.getRawBits() < b.getRawBits()) 
 		return b;
 	return a;
 }
